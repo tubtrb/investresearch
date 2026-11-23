@@ -1,5 +1,7 @@
 # Market bottom event study
 
+**v0.1.0 연구 문서:** [리서치 기준서](docs/research-methodology.md) · [데이터·검증 가이드](docs/data-and-validation.md) · [변경 기록](CHANGELOG.md)
+
 A dependency-free Python 3.10+ MVP for reviewing historical KRX bottom candidates, not forecasting a live bottom or sending orders. The supplied prices and evidence are **synthetic**, not backtest evidence.
 
 ## Run
