@@ -13,9 +13,11 @@
       "known_by": "2026-11-23T08:57:54-05:00",
       "source_urls": [
         "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
-        "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000090/0001045810-26-000090-index.htm"
+        "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000090/0001045810-26-000090-index.htm",
+        "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/0001045810-26-000082-index.htm"
       ],
-      "review_if": "A new official executive or board transition is disclosed."
+      "review_if": "A new official executive or board transition is disclosed.",
+      "previous_state_publicly_documented_at": "2026-11-12T08:52:41-05:00"
     },
     {
       "id": "nvda.sec_accounting_inquiry",
@@ -174,5 +176,78 @@
       "evidence": "The Nov 23 close exceeded Nov 19 but remained below the Nov 11 close. Semiconductors and the broad US market also rebounded.",
       "counter_test": "Compare against contemporaneous sector and market returns, separate public news-time and cash-session effects, then check the next sessions' closes."
     }
-  ]
+  ],
+  "derived_observations": [
+    {
+      "id": "nvda.post_reinstatement_price_retracement",
+      "asset": "NVDA",
+      "unit": "USD",
+      "baseline": 173.73,
+      "baseline_session_date": "2026-11-11",
+      "drawdown_reference": 125.53,
+      "drawdown_reference_session_date": "2026-11-20",
+      "rebound": 165.05,
+      "rebound_time": "2026-11-23T16:00:00-05:00",
+      "rebound_is_close": true,
+      "recovered_pct": 82,
+      "source_url": "https://stockanalysis.com/stocks/nvda/history/"
+    },
+    {
+      "id": "soxx.post_reinstatement_price_retracement",
+      "asset": "SOXX",
+      "unit": "USD",
+      "baseline": 155.4,
+      "baseline_session_date": "2026-11-11",
+      "drawdown_reference": 123.4,
+      "drawdown_reference_session_date": "2026-11-20",
+      "rebound": 140.22,
+      "rebound_time": "2026-11-23T16:00:00-05:00",
+      "rebound_is_close": true,
+      "recovered_pct": 52.6,
+      "source_url": "https://stockanalysis.com/etf/soxx/history/"
+    },
+    {
+      "id": "mu.post_reinstatement_price_retracement",
+      "asset": "MU",
+      "unit": "USD",
+      "baseline": 811.3,
+      "baseline_session_date": "2026-11-11",
+      "drawdown_reference": 594.51,
+      "drawdown_reference_session_date": "2026-11-20",
+      "rebound": 707.7,
+      "rebound_time": "2026-11-23T16:00:00-05:00",
+      "rebound_is_close": true,
+      "recovered_pct": 52.2,
+      "source_url": "https://stockanalysis.com/stocks/mu/history/"
+    },
+    {
+      "id": "kospi.post_reinstatement_price_retracement",
+      "asset": "KOSPI",
+      "unit": "index_points",
+      "baseline": 5342.73,
+      "baseline_session_date": "2026-11-12",
+      "drawdown_reference": 4708.54,
+      "drawdown_reference_session_date": "2026-11-23",
+      "rebound": 5017.87,
+      "rebound_time": "2026-11-24T10:53:30+09:00",
+      "rebound_is_close": false,
+      "recovered_pct": 48.8,
+      "source_url": "https://kr.investing.com/indices/kospi"
+    },
+    {
+      "id": "hynix.post_reinstatement_price_retracement",
+      "asset": "HYNIX",
+      "unit": "KRW",
+      "baseline": 1254000,
+      "baseline_session_date": "2026-11-12",
+      "drawdown_reference": 1085000,
+      "drawdown_reference_session_date": "2026-11-23",
+      "rebound": 1176000,
+      "rebound_time": "2026-11-24T11:13:00+09:00",
+      "rebound_is_close": false,
+      "recovered_pct": 53.8,
+      "source_url": "https://kr.investing.com/equities/sk-hynix-inc-historical-data"
+    }
+  ],
+  "derived_observation_method": "100 * (rebound - drawdown_reference) / (baseline - drawdown_reference); selected price window, not a causal estimate."
 }
