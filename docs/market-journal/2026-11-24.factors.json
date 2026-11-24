@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "observation_cutoff": "2026-11-24T11:15:00+09:00",
+  "usage": "Research observations only; not connected to scoring, backtest, or trading.",
+  "factors": [
+    {
+      "id": "nvda.permanent_ceo_uncertainty",
+      "before": "elevated_interim_leadership",
+      "after": "resolved_by_reinstatement",
+      "evidence_status": "company_confirmed",
+      "event_effective_local_date": "2026-11-22",
+      "public_release_local_date": "2026-11-23",
+      "known_by": "2026-11-23T08:57:54-05:00",
+      "source_urls": [
+        "https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition",
+        "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000090/0001045810-26-000090-index.htm"
+      ],
+      "review_if": "A new official executive or board transition is disclosed."
+    },
+    {
+      "id": "nvda.sec_accounting_inquiry",
+      "before": "reported_unconfirmed",
+      "after": "reported_unconfirmed",
+      "evidence_status": "media_report_no_public_resolution_found",
+      "source_urls": [
+        "https://www.investing.com/news/economy-news/exclusiveus-secs-nvidia-probe-is-examining-potential-accounting-issues-says-5042460",
+        "https://nvidianews.nvidia.com/news/nvidia-board-reinstates-jensen-huang-as-president-ceo-and-board-director"
+      ],
+      "review_if": "Company or SEC publicly confirms scope, resolution, enforcement, or a relevant filing or restatement."
+    },
+    {
+      "id": "nvda.board_investigation",
+      "before": "in_progress",
+      "after": "in_progress",
+      "evidence_status": "company_confirmed",
+      "source_urls": [
+        "https://nvidianews.nvidia.com/news/nvidia-board-reinstates-jensen-huang-as-president-ceo-and-board-director"
+      ],
+      "review_if": "The independent committee publishes a conclusion or a new material action."
+    },
+    {
+      "id": "nvda.export_control_exposure",
+      "before": "unresolved",
+      "after": "unresolved",
+      "evidence_status": "oversight_strengthening_announced_not_regulatory_clearance",
+      "source_urls": [
+        "https://nvidianews.nvidia.com/news/nvidia-board-reinstates-jensen-huang-as-president-ceo-and-board-director"
+      ],
+      "review_if": "A competent authority or filing confirms a relevant license, policy, finding, or commercial impact."
+    }
+  ],
+  "market_observations": [
+    {
+      "id": "nvda.us_regular_close",
+      "session": "US_REGULAR",
+      "unit": "USD",
+      "points": [
+        [
+          "2026-11-11",
+          173.73
+        ],
+        [
+          "2026-11-19",
+          145.98
+        ],
+        [
+          "2026-11-20",
+          125.53
+        ],
+        [
+          "2026-11-23",
+          165.05
+        ]
+      ],
+      "source_url": "https://stockanalysis.com/stocks/nvda/history/"
+    },
+    {
+      "id": "kospi.krx_intraday",
+      "session": "KRX_REGULAR",
+      "unit": "index_points",
+      "points": [
+        [
+          "2026-11-24T09:30:00+09:00",
+          4997.35
+        ],
+        [
+          "2026-11-24T10:10:10+09:00",
+          5042.77
+        ],
+        [
+          "2026-11-24T10:40:10+09:00",
+          5037.6
+        ],
+        [
+          "2026-11-24T11:08:00+09:00",
+          5002.83
+        ]
+      ],
+      "source_urls": [
+        "https://news.bizwatch.co.kr/article/market/2026/11/24/0005",
+        "https://kr.investing.com/indices/kospi",
+        "https://tokti.ai/finji/kr/live/"
+      ]
+    },
+    {
+      "id": "hynix.krx_intraday",
+      "session": "KRX_REGULAR",
+      "unit": "KRW",
+      "points": [
+        [
+          "2026-11-24T09:44:00+09:00",
+          1180000
+        ],
+        [
+          "2026-11-24T10:15:00+09:00",
+          1199000
+        ],
+        [
+          "2026-11-24T10:42:00+09:00",
+          1184000
+        ],
+        [
+          "2026-11-24T11:13:00+09:00",
+          1176000
+        ]
+      ],
+      "source_urls": [
+        "https://m.stock.naver.com/domestic/stock/000660/discussion",
+        "https://m.stock.naver.com/domestic/stock/000660/price"
+      ]
+    },
+    {
+      "id": "kospi.foreign_cash_flow_estimate",
+      "session": "KRX_REGULAR",
+      "unit": "KRW_100M",
+      "evidence_status": "vendor_preliminary",
+      "series": [
+        {
+          "provider": "Finji",
+          "time_kind": "displayed_observation",
+          "points": [
+            [
+              "2026-11-24T10:34:00+09:00",
+              5946
+            ],
+            [
+              "2026-11-24T11:04:00+09:00",
+              6605
+            ]
+          ],
+          "source_url": "https://tokti.ai/finji/kr/live/"
+        },
+        {
+          "provider": "지표담",
+          "time_kind": "vendor_receipt",
+          "points": [
+            [
+              "2026-11-24T11:03:23+09:00",
+              8679
+            ]
+          ],
+          "source_url": "https://stock.minemelon.com/?indicator=t1601"
+        }
+      ],
+      "comparison_rule": "Compare within an unchanged provider and market scope only; not interchangeable with single-stock estimates."
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "nvda.ceo_risk_discount_unwind",
+      "status": "plausible_not_attributed",
+      "effect_size": null,
+      "model_weight_change": null,
+      "evidence": "The Nov 23 close exceeded Nov 19 but remained below the Nov 11 close. Semiconductors and the broad US market also rebounded.",
+      "counter_test": "Compare against contemporaneous sector and market returns, separate public news-time and cash-session effects, then check the next sessions' closes."
+    }
+  ]
+}
