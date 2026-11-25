@@ -1,2 +1,5 @@
-# Frontend (not implemented)
-A future frontend can display retrospective cases, their point-in-time evidence, and unavailable or incomplete results. It should call the backend and never access the database directly.
+# Frontend
+
+- [독립 차트 엔진 v0.1.0](chart-engine/README.md): 캔들·비교·기술 지표·OHLCV CSV. 기본은 가상 데이터, 시세 피드 미연결.
+
+향후 실제 리서치 데이터는 백엔드를 통해 공급하며 프런트엔드에서 데이터베이스에 직접 접속하지 않는다.

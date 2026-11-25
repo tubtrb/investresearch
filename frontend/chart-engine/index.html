@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>InvestResearch 차트 엔진</title><link rel="stylesheet" href="/theme.css"></head>
+<body><main><header><p class="eyebrow">INVESTRESEARCH / 0.1.0 PREVIEW</p><h1>독립 차트 엔진</h1><p id="source" aria-live="polite"></p></header>
+<section class="controls" aria-label="차트 설정">
+<label class="file">OHLCV CSV 열기 <input id="file" type="file" accept=".csv,text/csv"></label>
+<button id="demo">예제 데이터</button><label>종목 <select id="symbol"></select></label><label>세션 <select id="session"><option value="regular">정규</option><option value="pre">프리</option><option value="post">애프터</option></select></label>
+<label>주기 <select id="interval"></select></label><label>형태 <select id="type"><option value="candle_solid">캔들</option><option value="area">종가선</option><option value="ohlc">OHLC</option></select></label>
+<label>조회 <select id="range"><option value="all">전체</option><option value="100">최근 100봉</option><option value="ytd">연초 이후</option></select></label>
+<label><input type="checkbox" id="compare"> 최대 4개 비교</label></section>
+<section class="controls" aria-label="지표 및 그리기">
+<label>이동평균 <input id="ma" value="5,20,60" size="8" inputmode="text"></label>
+<label><input type="checkbox" id="boll" checked> 볼린저</label><label><input type="checkbox" id="cloud" checked> 일목</label><label><input type="checkbox" id="vol" checked> 거래량</label><label><input type="checkbox" id="profile" checked> 매물대</label>
+<label><input type="checkbox" id="rsi"> RSI</label><label><input type="checkbox" id="macd"> MACD</label><label><input type="checkbox" id="kdj"> KDJ</label><label><input type="checkbox" id="atr"> ATR</label><label><input type="checkbox" id="obv"> OBV</label>
+<label>추가 보조지표 <select id="extra"><option value="">없음</option></select></label><label>그리기 대상 <select id="target"></select></label><label>그리기 <select id="draw"><option value="">선택</option><option value="horizontalStraightLine">수평선</option><option value="verticalStraightLine">수직선</option><option value="segment">추세선</option><option value="rayLine">반직선</option><option value="priceLine">가격 라벨</option><option value="fibonacciLine">피보나치</option><option value="parallelStraightLine">평행선</option></select></label>
+<button id="clear">선 지우기</button><button id="png">차트 PNG</button></section>
+<div id="status" role="status"></div><div id="panels"></div>
+<footer>시세 피드 미연결. 예제 수치는 실거래가가 아닙니다. KRX/NXT와 정규·장전·장후 입력은 섞지 않습니다. 매물대는 봉의 고저 사이에 거래량을 균등 배분한 추정치입니다.</footer>
+</main><script type="module" src="/app.mjs"></script></body></html>
