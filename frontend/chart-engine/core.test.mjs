@@ -66,3 +66,18 @@ test('Browser entry point serves local chart JS, dependencies, CSP and rejects u
   assert.equal((await fetch(u+'/package.json')).status,404);
  }finally{child.kill();}
 });
+test('mixed resolutions include new trade date as provisional without double counting',()=>{
+ const minute='X,2026-11-25T10:30+09:00,113,114,107,108,5,KRX,regular,1m';
+ const later='X,2026-11-25T10:31+09:00,108,109,104,105,7,KRX,regular,1m';
+ const x=make([...d,minute,later]);
+ const daily=seriesFor(x,{symbol:'X',market:'KRX'});
+ assert.deepEqual(daily.map(v=>[v.close,v.volume,v.provisional]),[[115,10,false],[120,20,false],[105,12,true]]);
+ for(const interval of ['W','M']){
+  const [a]=seriesFor(x,{symbol:'X',market:'KRX',interval});
+  assert.equal(a.close,105);assert.equal(a.volume,42);assert.equal(a.provisional,true);assert.equal(a.asOf,Date.parse('2026-11-25T10:31+09:00'));
+ }
+ const z=make([...d,minute,later,minute.replace('10:30','15:30').replace('1m','D')]);
+ const resolved=seriesFor(z,{symbol:'X',market:'KRX'});
+ assert.equal(resolved.at(-1).provisional,false);assert.equal(resolved.at(-1).volume,5);
+ assert.throws(()=>make([d[0],d[0].replace('15:30','15:31')]),/중복/);
+});

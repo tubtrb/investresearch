@@ -39,7 +39,8 @@ export function parseCSV(text) {
     const nums=['open','high','low','close','volume'].map(k=>r[k]===''&&k==='volume'?null:number.test(r[k])?Number(r[k]):NaN);
     const [open,high,low,close,volume]=nums;
     const market=r.market.toUpperCase();
-    const id=[r.symbol,market,r.session,r.resolution,timestamp].join('|');
+    const stamp=r.resolution==='D'&&sessions.includes(market)&&Number.isFinite(timestamp)?tradingDay(timestamp,marketTimezone[market],'D',r.session):timestamp;
+    const id=[r.symbol,market,r.session,r.resolution,stamp].join('|');
     if(fields.length!==keys.length||!r.symbol||!iso.test(r.timestamp)||!Number.isFinite(timestamp)||
        nums.some(v=>v!==null&&!Number.isFinite(v))||low<=0||low>Math.min(open,close)||high<Math.max(open,close)||volume<0||
        !sessions.includes(market)||!phases.includes(r.session)||!['1m','D'].includes(r.resolution)||
@@ -59,9 +60,19 @@ export function seriesFor(rows,{symbol,market,session='regular',interval='D'}) {
   if(!intervals.includes(interval)||!sessions.includes(market)||!phases.includes(session))throw new Error('지원하지 않는 시장·주기');
   const min=interval.endsWith('m');
   const bars=rows.filter(x=>x.symbol===symbol&&x.market===market&&x.session===session);
-  const hasDaily=bars.some(x=>x.resolution==='D');
-  const selected=bars.filter(x=>x.resolution===(min||!hasDaily?'1m':'D'));
-  return aggregate(selected,interval,marketTimezone[market],session);
+  const tz=marketTimezone[market];
+  const minutes=bars.filter(x=>x.resolution==='1m');
+  if(min)return aggregate(minutes,interval,tz,session);
+  const byDate=new Map();
+  for(const day of aggregate(minutes,'D',tz,session)){
+    byDate.set(tradingDay(day.timestamp,tz,'D',session),{...day,provisional:true});
+  }
+  for(const day of bars.filter(x=>x.resolution==='D')){
+    const key=tradingDay(day.timestamp,tz,'D',session);
+    if(byDate.get(key)?.resolution==='D')throw new Error('종목별 거래일에 일봉이 둘 이상입니다.');
+    byDate.set(key,{...day,provisional:false});
+  }
+  return aggregate([...byDate.values()],interval,tz,session);
 }
 export function aggregate(rows,interval,tz,phase='regular') {
   const result=[];
@@ -73,8 +84,10 @@ export function aggregate(rows,interval,tz,phase='regular') {
     if(prev&&key===key0) {
       prev.high=Math.max(prev.high,x.high);prev.low=Math.min(prev.low,x.low);prev.close=x.close;
       prev.volume=prev.volume==null||x.volume==null?null:prev.volume+x.volume;
+      prev.asOf=x.asOf??x.timestamp;
+      prev.provisional=prev.provisional||Boolean(x.provisional);
     } else {
-      prev={timestamp:x.timestamp,open:x.open,high:x.high,low:x.low,close:x.close,volume:x.volume};
+      prev={timestamp:x.timestamp,asOf:x.asOf??x.timestamp,provisional:Boolean(x.provisional),open:x.open,high:x.high,low:x.low,close:x.close,volume:x.volume};
       result.push(prev);key0=key;
     }
   }

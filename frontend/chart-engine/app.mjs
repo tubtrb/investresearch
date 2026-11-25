@@ -102,7 +102,10 @@ function redraw(){
     const digits=['JPY','KRW'].includes(meta.currency)?0:2;
     chart.setPriceVolumePrecision(digits,0);
     chart.setStyles({candle:{type:$('type').value,bar:{upColor:'#ef7474',downColor:'#62a7ff',noChangeColor:'#acbec6',upBorderColor:'#ef7474',downBorderColor:'#62a7ff',noChangeBorderColor:'#acbec6',upWickColor:'#ef7474',downWickColor:'#62a7ff',noChangeWickColor:'#acbec6'}}});
-    const last=data.at(-1);info.textContent=timeFmt(last.timestamp,tz)+' · 종가 '+fmt(last.close)+' · '+visible.length+'봉'+(['W','M'].includes(tf)?' · 마지막 봉 진행 중일 수 있음':'');
+    const last=data.at(-1);
+    const confirmed=last.provisional?rawProfile.findLast(b=>!b.provisional):null;
+    const estimate=last.provisional?' · 분봉 집계 잠정값'+(confirmed?' (마지막 확정 일봉 '+timeFmt(confirmed.asOf,tz)+' · '+fmt(confirmed.close)+')':''):'';
+    info.textContent=timeFmt(last.asOf,tz)+' 기준 · '+(last.provisional?'최종 관측가 ':'종가 ')+fmt(last.close)+' · '+visible.length+'봉'+estimate+(['W','M'].includes(tf)?' · 마지막 봉 진행 중일 수 있음':'');
     chart.applyNewData(data.map(x=>({...x,volume:x.volume??undefined})),false);
     if($('range').value!=='all'&&visible.length>0&&visible.length<data.length)chart.setBarSpace(Math.max(1,Math.min(50,Math.max(200,container.clientWidth-95)/visible.length)));
     if(ma.length)chart.createIndicator({name:'MA',calcParams:ma},true,{id:'candle_pane'});
