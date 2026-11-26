@@ -10,6 +10,7 @@ from pathlib import Path
 from statistics import fmean
 
 from .backtest import stamp
+from .global_macro import dashboard
 
 SCHEMA = {
     "fx": ("usd_local_change_pct",),
@@ -73,6 +74,7 @@ class Screen:
     def __init__(self, payload):
         self.market = label(payload["market"], "market")
         self.cutoff = stamp(payload["cutoff"])
+        self.global_macro = dashboard(payload["global_macro"], self.cutoff) if "global_macro" in payload else None
         self.sessions = [stamp(x) for x in payload["regular_closes"]]
         if not self.sessions or any(a >= b for a, b in zip(self.sessions, self.sessions[1:])):
             raise ValueError("regular_closes must be a nonempty strictly increasing exchange calendar")
@@ -204,7 +206,7 @@ class Screen:
         return {"schema_version": 2, "mode": "research_only", "market": self.market,
                 "cutoff": self.cutoff.isoformat(), "evaluated_close_at": self.completed[-1].isoformat(),
                 "macro_stress_limits": MACRO_LIMITS, "max_age_calendar_days": AGES,
-                "candidates": candidates}
+                "candidates": candidates, "global_macro": self.global_macro}
 
 
 def result(status, reasons, evidence=(), **details):

@@ -1,0 +1,129 @@
+{
+  "cutoff": "2026-11-27T08:30:00+09:00",
+  "observations": [
+    {
+      "key": "US10Y",
+      "basis": "yield_close",
+      "unit": "%",
+      "market_date": "2026-11-24",
+      "observed_at": "2026-11-24T17:00:00Z",
+      "available_at": "2026-11-24T17:30:00Z",
+      "value": 4.5,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "key": "US10Y",
+      "basis": "yield_close",
+      "unit": "%",
+      "market_date": "2026-11-25",
+      "observed_at": "2026-11-25T17:00:00Z",
+      "available_at": "2026-11-25T17:30:00Z",
+      "value": 4.56,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "key": "EURUSD",
+      "basis": "fx_fix",
+      "unit": "USD/EUR",
+      "market_date": "2026-11-24",
+      "observed_at": "2026-11-24T17:00:00Z",
+      "available_at": "2026-11-24T17:30:00Z",
+      "value": 1.12,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "key": "EURUSD",
+      "basis": "fx_fix",
+      "unit": "USD/EUR",
+      "market_date": "2026-11-25",
+      "observed_at": "2026-11-25T17:00:00Z",
+      "available_at": "2026-11-25T17:30:00Z",
+      "value": 1.1,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "key": "GOLD",
+      "basis": "futures_settlement",
+      "unit": "USD/troy_oz",
+      "market_date": "2026-11-24",
+      "observed_at": "2026-11-24T17:00:00Z",
+      "available_at": "2026-11-24T17:30:00Z",
+      "value": 3600,
+      "source": "Synthetic demonstration only",
+      "contract": "2026-12"
+    },
+    {
+      "key": "GOLD",
+      "basis": "futures_settlement",
+      "unit": "USD/troy_oz",
+      "market_date": "2026-11-25",
+      "observed_at": "2026-11-25T17:00:00Z",
+      "available_at": "2026-11-25T17:30:00Z",
+      "value": 3615,
+      "source": "Synthetic demonstration only",
+      "contract": "2026-12"
+    },
+    {
+      "key": "SP500",
+      "basis": "cash_close",
+      "unit": "index_pt",
+      "market_date": "2026-11-24",
+      "observed_at": "2026-11-24T17:00:00Z",
+      "available_at": "2026-11-24T17:30:00Z",
+      "value": 6800,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "key": "SP500",
+      "basis": "cash_close",
+      "unit": "index_pt",
+      "market_date": "2026-11-25",
+      "observed_at": "2026-11-25T17:00:00Z",
+      "available_at": "2026-11-25T17:30:00Z",
+      "value": 6875,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "key": "NQ",
+      "basis": "futures_settlement",
+      "unit": "index_pt",
+      "market_date": "2026-11-24",
+      "observed_at": "2026-11-24T17:00:00Z",
+      "available_at": "2026-11-24T17:30:00Z",
+      "value": 25400,
+      "source": "Synthetic demonstration only",
+      "contract": "2026-12"
+    },
+    {
+      "key": "NQ",
+      "basis": "futures_settlement",
+      "unit": "index_pt",
+      "market_date": "2026-11-25",
+      "observed_at": "2026-11-25T17:00:00Z",
+      "available_at": "2026-11-25T17:30:00Z",
+      "value": 25370,
+      "source": "Synthetic demonstration only",
+      "contract": "2026-12"
+    },
+    {
+      "key": "VIX",
+      "basis": "index_close",
+      "unit": "index_pt",
+      "market_date": "2026-11-24",
+      "observed_at": "2026-11-24T17:00:00Z",
+      "available_at": "2026-11-24T17:30:00Z",
+      "value": 20,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "key": "VIX",
+      "basis": "index_close",
+      "unit": "index_pt",
+      "market_date": "2026-11-25",
+      "observed_at": "2026-11-25T17:00:00Z",
+      "available_at": "2026-11-25T17:30:00Z",
+      "value": 21,
+      "source": "Synthetic demonstration only"
+    }
+  ]
+}
