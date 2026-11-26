@@ -14,15 +14,16 @@ from .backtest import stamp
 SCHEMA = {
     "fx": ("usd_local_change_pct",),
     "credit": ("hy_oas_change_bp",),
+    "rates": ("us_10y_change_bp",),
     "breadth": ("sector_vs_benchmark_pct",),
     "orders": ("orders_change_pct",),
     "contract_price": ("price_change_pct",),
     "financials": ("op_income", "op_income_prior", "cfo", "capex", "eps"),
     "valuation": ("max_trailing_pe",),
 }
-AGES = {"fx": 4, "credit": 5, "breadth": 4, "orders": 120,
+AGES = {"fx": 4, "credit": 5, "rates": 5, "breadth": 4, "orders": 120,
         "contract_price": 120, "financials": 160, "valuation": 45}
-MACRO_LIMITS = {"fx": .5, "credit": 10., "breadth": -1.5}
+MACRO_LIMITS = {"fx": .5, "credit": 10., "rates": 10.}
 
 
 def number(value, what):
@@ -116,13 +117,12 @@ class Screen:
             return latest
         return None
 
-    def macro(self, sector):
-        kinds = ("fx", "credit", "breadth")
-        obs = [self.evidence(kind, self.market if kind != "breadth" else sector) for kind in kinds]
+    def macro(self):
+        kinds = tuple(MACRO_LIMITS)
+        obs = [self.evidence(kind, self.market) for kind in kinds]
         missing = [kind for kind, row in zip(kinds, obs) if row is None]
-        adverse = [row.kind for row in obs if row is not None and (
-            (next(iter(row.values.values())) <= MACRO_LIMITS[row.kind]) if row.kind == "breadth"
-            else (next(iter(row.values.values())) >= MACRO_LIMITS[row.kind]))]
+        adverse = [row.kind for row in obs if row is not None
+                   and row.values[SCHEMA[row.kind][0]] >= MACRO_LIMITS[row.kind]]
         if len(adverse) == 3:
             return result("hold", ["joint_stress"], obs, adverse=adverse, exposure_factor=0.)
         if missing:
@@ -132,16 +132,19 @@ class Screen:
                       obs, adverse=adverse, exposure_factor=factor)
 
     def sector(self, sector):
-        obs = [self.evidence(kind, sector) for kind in ("orders", "contract_price")]
+        kinds = ("orders", "contract_price")
+        obs = [self.evidence(kind, sector) for kind in kinds]
+        relative = self.evidence("breadth", sector)
+        context = {"relative_strength": relative.audit() if relative is not None else None}
         if any(row is None for row in obs):
-            return result("unknown", [kind for kind, row in zip(("orders", "contract_price"), obs)
-                                      if row is None], obs)
+            return result("unknown", [kind for kind, row in zip(kinds, obs) if row is None],
+                          obs, **context)
         a, b = obs[0].values["orders_change_pct"], obs[1].values["price_change_pct"]
         if a > 0 and b > 0:
-            return result("pass", ["orders_and_contract_prices_improving"], obs)
+            return result("pass", ["orders_and_contract_prices_improving"], obs, **context)
         if a < 0 and b < 0:
-            return result("fail", ["orders_and_contract_prices_declining"], obs)
-        return result("hold", ["mixed_or_flat_sector"], obs)
+            return result("fail", ["orders_and_contract_prices_declining"], obs, **context)
+        return result("hold", ["mixed_or_flat_sector"], obs, **context)
 
     def chart(self, symbol):
         dates = self.completed[-21:]
@@ -186,9 +189,8 @@ class Screen:
     def run(self):
         candidates = []
         for sym, sector in self.universe.items():
-            gates = {}
-            for name, test in (("macro", lambda: self.macro(sector)),
-                               ("sector", lambda: self.sector(sector)),
+            gates = {"macro": self.macro()}
+            for name, test in (("sector", lambda: self.sector(sector)),
                                ("chart", lambda: self.chart(sym)),
                                ("company", lambda: self.company(sym, gates["chart"]["close"]))):
                 blocker = next((k for k, v in gates.items() if v["status"] != "pass"), None)
@@ -199,7 +201,7 @@ class Screen:
                                "first_blocker": first,
                                "illustrative_max_weight": .5 * gates["macro"]["exposure_factor"]
                                if first is None else None})
-        return {"schema_version": 1, "mode": "research_only", "market": self.market,
+        return {"schema_version": 2, "mode": "research_only", "market": self.market,
                 "cutoff": self.cutoff.isoformat(), "evaluated_close_at": self.completed[-1].isoformat(),
                 "macro_stress_limits": MACRO_LIMITS, "max_age_calendar_days": AGES,
                 "candidates": candidates}

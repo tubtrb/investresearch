@@ -222,6 +222,16 @@
       }
     },
     {
+      "kind": "rates",
+      "key": "KRX",
+      "period_end": "2026-01-30T15:30:00+09:00",
+      "available_at": "2026-01-30T15:30:00+09:00",
+      "source": "Synthetic demonstration only",
+      "values": {
+        "us_10y_change_bp": -6
+      }
+    },
+    {
       "kind": "breadth",
       "key": "SERVER_DRAM",
       "period_end": "2026-01-30T15:30:00+09:00",

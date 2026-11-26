@@ -33,7 +33,7 @@ class StagedResearchTest(unittest.TestCase):
         self.evidence("fx")["values"]["usd_local_change_pct"] = .5
         self.evidence("credit")["values"]["hy_oas_change_bp"] = 10.
         self.assertEqual(self.run_one()["illustrative_max_weight"], .25)
-        self.evidence("breadth")["values"]["sector_vs_benchmark_pct"] = -1.5
+        self.evidence("rates")["values"]["us_10y_change_bp"] = 10.
         row = self.run_one()
         self.assertEqual(row["first_blocker"], "macro")
         self.assertEqual(row["stages"]["company"]["status"], "skipped")
@@ -44,9 +44,28 @@ class StagedResearchTest(unittest.TestCase):
         x["period_end"] = "2026-01-02T15:30:00+09:00"
         self.assertEqual(self.run_one()["stages"]["macro"]["status"], "unknown")
 
+    def test_relative_strength_is_optional_sector_context_only(self):
+        self.evidence("breadth")["values"]["sector_vs_benchmark_pct"] = -25
+        row = self.run_one()
+        self.assertEqual(row["stages"]["macro"]["adverse"], [])
+        self.assertEqual(row["stages"]["sector"]["status"], "pass")
+        info = row["stages"]["sector"]["relative_strength"]
+        self.assertEqual(info["values"]["sector_vs_benchmark_pct"], -25)
+        self.p["evidence"].remove(self.evidence("breadth"))
+        row = self.run_one()
+        self.assertEqual(row["status"], "review")
+        self.assertIsNone(row["stages"]["sector"]["relative_strength"])
+
+    def test_missing_rates_not_replaced_by_semis(self):
+        self.p["evidence"].remove(self.evidence("rates"))
+        row = self.run_one()
+        self.assertEqual(row["first_blocker"], "macro")
+        self.assertEqual(row["stages"]["macro"]["reasons"], ["rates"])
+
     def test_sector_mixed_and_declining(self):
         self.evidence("orders")["values"]["orders_change_pct"] = -1.
         self.assertEqual(self.run_one()["stages"]["sector"]["status"], "hold")
+        self.evidence("breadth")["values"]["sector_vs_benchmark_pct"] = 25
         self.evidence("contract_price")["values"]["price_change_pct"] = -1.
         self.assertEqual(self.run_one()["stages"]["sector"]["status"], "fail")
 
