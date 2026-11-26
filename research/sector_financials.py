@@ -218,7 +218,7 @@ def chart_svg(report, sector, *, demo=False):
 
 
 
-def overview_svg(report, *, demo=False):
+def summary_table_svg(report, *, demo=False):
     """Render all sectors on a common mobile-friendly, latest-quarter comparison."""
     palette = {
         "positive": ("#e3f2eb", "#135a43"),
@@ -289,12 +289,103 @@ def overview_svg(report, *, demo=False):
     return "\n".join(out + ["</svg>"])
 
 
+
+def overview_svg(report, *, demo=False):
+    """Small multiples with a common time axis, not a common level scale."""
+    out = ['<svg xmlns="http://www.w3.org/2000/svg" role="img" width="900" height="1680" viewBox="0 0 900 1680">',
+           '<title>10개 섹터 8분기 추세</title>',
+           '<rect width="900" height="1680" fill="#f1f5fb"/>',
+           '<style>text{font-family:"Noto Sans CJK KR",sans-serif}</style>']
+
+    def txt(x, y, val, size=18, color="#253b56", *, anchor="start", bold=False):
+        out.append(f'<text x="{x:.1f}" y="{y:.1f}" font-size="{size}" fill="{color}"'
+                   f' text-anchor="{anchor}" font-weight="{700 if bold else 400}">{escape(str(val))}</text>')
+
+    def rect(x, y, w, h, color, radius=0):
+        out.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" rx="{radius}" fill="{color}"/>')
+
+    def line(x0, y0, x1, y1, color, width=1):
+        out.append(f'<line x1="{x0:.1f}" y1="{y0:.1f}" x2="{x1:.1f}" y2="{y1:.1f}" stroke="{color}" stroke-width="{width}"/>')
+
+    rows = list(report["sectors"].values())
+    completed = sum(any(p["revenue"] is not None for p in row["history"]) for row in rows)
+    txt(25, 55, "업황 추세 | 10개 섹터", 38, bold=True)
+    q0 = quarter_label(quarter_index(report["report_quarter"]) - 7)
+    txt(25, 95, f"{q0} ~ {report['report_quarter']}   ·   실적 그래프 {completed}/{len(rows)}", 21)
+    line(29, 125, 54, 125, "#185cb1", 4)
+    txt(64, 131, "매출", 18)
+    rect(132, 114, 20, 14, "#1c796a", 2)
+    txt(161, 131, "영업이익 +", 18)
+    rect(267, 114, 20, 14, "#af3e52", 2)
+    txt(296, 131, "영업이익 −", 18)
+    txt(452, 131, "축 범위는 섹터별로 다릅니다", 17, "#566b84")
+    for i, row in enumerate(rows):
+        x, y = 22 + (i % 2) * 433, 155 + (i // 2) * 295
+        rect(x, y, 423, 279, "#fff", 14)
+        txt(x+17, y+33, row["name"], 23, bold=True)
+        history = row["history"]
+        got = sum(p["revenue"] is not None for p in history)
+        if not got:
+            txt(x+17, y+67, f"대표 {row['expected_members']}사 기준", 17, "#566b84")
+            rect(x+17, y+95, 389, 142, "#f1f4f8", 10)
+            txt(x+211, y+172, "실적 미집계", 20, "#566b84", anchor="middle")
+            continue
+
+        size = row["units_per_display"]
+        unit = {1: "", 10**6: "백만", 10**8: "억", 10**9: "십억", 10**12: "조"}[size]
+        unit = f"{unit} {'원' if row['currency']=='KRW' else row['currency']}".strip()
+        p = row["latest"]
+        n, improved = row["expected_members"], p["both_improved"]
+        detail = f"동반 개선 {improved}/{n}사" if improved is not None else "최신 동기 비교 미확인"
+        txt(x+17, y+60, f"{detail}  ·  {got}/8분기", 16, "#566b84")
+        xs = [x + 47 + j * 47 for j in range(8)]
+        for field, label, top, bottom in (("revenue", "매출", y+109, y+155),
+                                          ("operating_profit", "영업이익", y+192, y+230)):
+            vals = [q[field] / size if q[field] is not None else None for q in history]
+            nums = [v for v in vals if v is not None]
+            bar = field == "operating_profit"
+            lo, hi = (min([0,*nums]), max([0,*nums])) if bar else (min(nums), max(nums))
+            pad = (hi-lo)*.14 or max(abs(hi)*.08, .01)
+            lo, hi = lo-pad, hi+pad
+            def py(v):
+                return bottom - (v - lo)/(hi - lo)*(bottom - top)
+            last = p[field]
+            suffix = f"  {last/size:,.3f} {unit}" if last is not None else "  최신 분기 없음"
+            txt(x+17, top-11, f"{label}{suffix}", 16, "#253b56", bold=True)
+            for xx in xs:
+                line(xx, top, xx, bottom, "#eef2f7")
+            zero = py(0) if bar else bottom
+            line(x+32, zero, x+397, zero, "#7c8fa6" if bar else "#d7e2ef", 1)
+            if bar:
+                txt(x+27, zero+4, "0", 11, "#566b84", anchor="end")
+            previous = None
+            for xx, val in zip(xs, vals):
+                if val is None:
+                    previous = None
+                    continue
+                yy = py(val)
+                if bar:
+                    rect(xx-11, min(yy, zero), 22, max(1., abs(yy-zero)),
+                         "#1c796a" if val >= 0 else "#af3e52", 1)
+                else:
+                    if previous is not None:
+                        line(*previous, xx, yy, "#185cb1", 3)
+                    out.append(f'<circle cx="{xx:.1f}" cy="{yy:.1f}" r="3.6" fill="#185cb1"/>')
+                    previous = (xx, yy)
+        for xx, h in zip(xs, history):
+            txt(xx, y+256, h["quarter"][2:].replace("-Q", "Q"), 12, "#566b84", anchor="middle")
+    txt(24, 1652, "가상 데이터 · 형식 예시" if demo else
+        "빈 구간은 미집계입니다. 0원이나 실적 악화를 뜻하지 않습니다.", 18, "#566b84")
+    return "\n".join(out + ["</svg>"])
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", required=True, type=Path)
     view = parser.add_mutually_exclusive_group()
     view.add_argument("--chart", choices=SECTORS)
-    view.add_argument("--overview", action="store_true", help="Render a 10-sector comparison SVG")
+    view.add_argument("--overview", action="store_true", help="Render 8-quarter charts for all sectors")
+    view.add_argument("--summary-table", action="store_true", help="Render a 10-sector latest-quarter table")
     parser.add_argument("--demo", action="store_true", help="Mark an illustrative SVG chart")
     args = parser.parse_args()
     try:
@@ -302,6 +393,8 @@ def main():
         report = sector_financials(payload["sector_financials"], stamp(payload["cutoff"]))
         if args.overview:
             print(overview_svg(report, demo=args.demo))
+        elif args.summary_table:
+            print(summary_table_svg(report, demo=args.demo))
         elif args.chart:
             print(chart_svg(report, args.chart, demo=args.demo))
         else:

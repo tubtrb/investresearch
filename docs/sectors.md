@@ -68,4 +68,4 @@ python -m research.sector_financials --input examples/sector-financials-entertai
 python -m research.sector_financials --input examples/sector-financials-entertainment-2026q3.json --overview > sectors-overview.svg
 ```
 
-10개 섹터를 같은 순서로 한 화면에 놓고, 같은 분기 기준 합산 매출·영업이익의 전년 동기 대비 변화와 동반 개선 회사 수, 판정을 표시합니다. 손익 전환은 증감률 대신 상태로, 미설정 섹터는 '미집계'로 표시합니다. 화면 상단의 비교 가능 수는 당기와 전년 동기 재무가 모두 있는 섹터 수로, 자동 통과 수와 다릅니다. 섹터별 8분기 상세 차트는 `--chart <섹터키>`로 따로 확인할 수 있습니다.
+10개 섹터를 같은 순서의 미니 차트로 배치합니다. 최근 8분기 매출은 파란 꺾은선, 영업이익은 0선을 중심으로 한 흑자·적자 막대입니다. 분기축을 공유하지만 금액축 범위는 섹터별로 다르므로 차트의 기울기나 높이 자체로 업종 규모를 비교하지 않습니다. 분기 누락은 빈칸을 유지하고 선을 이어 그리지 않습니다. 상단의 실적 그래프 수는 합산 가능한 분기가 하나 이상 있는 섹터 수이며, 각 차트의 분기 수와 동반 개선 기업 수는 별도입니다. 최신 분기 표는 `--summary-table`, 섹터별 상세는 `--chart <섹터키>`로 볼 수 있습니다.

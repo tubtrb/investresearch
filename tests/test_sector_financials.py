@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 
 from research.backtest import stamp
-from research.sector_financials import chart_svg, overview_svg, sector_financials
+from research.sector_financials import chart_svg, overview_svg, sector_financials, summary_table_svg
 from research.staged import Screen
 
 
@@ -86,8 +86,14 @@ class FinancialBasketTest(unittest.TestCase):
         self.assertEqual(ent["latest"]["operating_profit"], 283556506129)
         self.assertEqual(ent["latest"]["both_improved"], 2)
         self.assertEqual(ent["status"], "hold")
-        svg = overview_svg(result)
         from xml.etree.ElementTree import fromstring
+        charts = overview_svg(result)
+        fromstring(charts)
+        self.assertEqual(charts.count("실적 미집계</text>"), 9)
+        self.assertEqual(charts.count("<circle"), 8)
+        self.assertIn("실적 그래프 1/10", charts)
+        self.assertIn("동반 개선 2/4사", charts)
+        svg = summary_table_svg(result)
         fromstring(svg)
         self.assertIn("비교 가능 1/10개 섹터", svg)
         self.assertEqual(svg.count("미집계</text>"), 9)
