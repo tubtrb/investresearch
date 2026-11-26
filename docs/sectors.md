@@ -61,3 +61,11 @@ python -m research.sector_financials --input examples/sector-financials-entertai
 ```
 
 2026년 3분기 합산 매출 2.238조 원(+53.9%), 영업이익 2,836억 원(+263.9%)이지만 양쪽 동반 개선은 하이브·JYP 2/4사뿐이어서 판정은 `hold`입니다. 하이브 제외 시 나머지 3사 합산 매출과 영업이익은 모두 감소했습니다. 최신 분기 집계는 잠정 IR 대신 [하이브](https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261116001746), [SM](https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001370), [JYP](https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001566), [YG](https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261116000477)의 분기보고서 연결 손익계산서를 사용했습니다.
+
+### 10개 섹터 한눈에 비교
+
+```sh
+python -m research.sector_financials --input examples/sector-financials-entertainment-2026q3.json --overview > sectors-overview.svg
+```
+
+10개 섹터를 같은 순서로 한 화면에 놓고, 같은 분기 기준 합산 매출·영업이익의 전년 동기 대비 변화와 동반 개선 회사 수, 판정을 표시합니다. 손익 전환은 증감률 대신 상태로, 미설정 섹터는 '미집계'로 표시합니다. 화면 상단의 비교 가능 수는 당기와 전년 동기 재무가 모두 있는 섹터 수로, 자동 통과 수와 다릅니다. 섹터별 8분기 상세 차트는 `--chart <섹터키>`로 따로 확인할 수 있습니다.

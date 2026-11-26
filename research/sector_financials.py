@@ -217,17 +217,95 @@ def chart_svg(report, sector, *, demo=False):
     return "\n".join(out + ["</svg>"])
 
 
+
+def overview_svg(report, *, demo=False):
+    """Render all sectors on a common mobile-friendly, latest-quarter comparison."""
+    palette = {
+        "positive": ("#e3f2eb", "#135a43"),
+        "negative": ("#fae9ec", "#962e43"),
+        "neutral": ("#eef2f6", "#52647a"),
+        "mixed": ("#fff0d4", "#825615"),
+    }
+    states = {"pass": ("개선", "positive"), "hold": ("혼조", "mixed"),
+              "fail": ("악화", "negative"), "unknown": ("미확인", "neutral")}
+    transitions = {"turned_profitable": "흑자전환", "turned_unprofitable": "적자전환",
+                   "loss_narrowed": "적자 축소", "loss_widened": "적자 확대"}
+    out = ['<svg xmlns="http://www.w3.org/2000/svg" role="img" width="800" height="890" viewBox="0 0 800 890">',
+           '<title>대표 기업 실적 비교 · 10개 섹터</title>',
+           '<rect width="800" height="890" fill="#f5f8fc"/>',
+           '<style>text{font-family:"Noto Sans CJK KR",sans-serif}</style>']
+
+    def txt(x, y, value, size=20, color="#203651", *, bold=False, center=False):
+        out.append(f'<text x="{x}" y="{y}" fill="{color}" font-size="{size}"'
+                   f' font-weight="{700 if bold else 400}" text-anchor="{"middle" if center else "start"}">'
+                   f'{escape(str(value))}</text>')
+
+    def box(x, y, w, h, fill="#fff", radius=10):
+        out.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{radius}" fill="{fill}"/>')
+
+    def pill(x, y, value, tone, w=117):
+        bg, fg = palette[tone]
+        box(x-w/2, y-26, w, 34, bg)
+        txt(x, y-3, value, 18, fg, bold=True, center=True)
+
+    def pct(v):
+        if v is None:
+            return "—", "neutral"
+        return (f"{v:+.1f}%" if round(v, 1) else "0.0%",
+                "positive" if v > 0 else "negative" if v < 0 else "neutral")
+
+    rows = list(report["sectors"].values())
+    comparable = sum(r.get("latest", {}).get("both_improved") is not None for r in rows)
+    txt(30, 55, "10개 섹터 | 대표 기업 실적", 35, bold=True)
+    txt(30, 92, f"{report['report_quarter']}  ·  전년 동기 대비  ·  비교 가능 {comparable}/{len(rows)}개 섹터", 20)
+    for x, title in ((283, "합산 매출"), (425, "합산 영업이익"), (555, "동반 개선"), (700, "판정")):
+        txt(x, 148, title, 19, bold=True, center=True)
+    txt(39, 148, "섹터", 19, bold=True)
+    for i, row in enumerate(rows):
+        y = 201 + 59*i
+        box(25, y-35, 750, 51)
+        latest = row.get("latest", {})
+        txt(39, y-4, row["name"], 21, bold=True)
+        rev, rev_tone = pct(latest.get("revenue_yoy_pct"))
+        op, op_tone = pct(latest.get("operating_profit_yoy_pct"))
+        change = latest.get("profit_transition")
+        if change in transitions:
+            op = transitions[change]
+            op_tone = "positive" if change in {"turned_profitable", "loss_narrowed"} else "negative"
+        n = row["expected_members"]
+        ups = latest.get("both_improved")
+        pill(283, y, rev, rev_tone)
+        pill(425, y, op, op_tone)
+        txt(555, y-4, f"{ups}/{n}사" if ups is not None else "—", 20,
+            "#253a55" if ups is not None else "#52647a", center=True)
+        label, tone = states[row["status"]]
+        if row["reason"] == "basket_not_configured":
+            label = "미집계"
+        elif row["reason"] == "stale_report_quarter":
+            label = "기간 경과"
+        pill(700, y, label, tone, w=105)
+    txt(31, 827, "동반 개선: 매출과 영업이익이 모두 늘어난 기업 수", 17)
+    txt(31, 855, "가상 데이터 · 형식 예시" if demo else "미집계: 대표사·실적 입력 전  |  —: 비교값 없음", 17, "#52647a")
+    return "\n".join(out + ["</svg>"])
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", required=True, type=Path)
-    parser.add_argument("--chart", choices=SECTORS)
+    view = parser.add_mutually_exclusive_group()
+    view.add_argument("--chart", choices=SECTORS)
+    view.add_argument("--overview", action="store_true", help="Render a 10-sector comparison SVG")
     parser.add_argument("--demo", action="store_true", help="Mark an illustrative SVG chart")
     args = parser.parse_args()
     try:
         payload = json.loads(args.input.read_text(encoding="utf-8-sig"))
         report = sector_financials(payload["sector_financials"], stamp(payload["cutoff"]))
-        print(chart_svg(report, args.chart, demo=args.demo) if args.chart else
-              json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False))
+        if args.overview:
+            print(overview_svg(report, demo=args.demo))
+        elif args.chart:
+            print(chart_svg(report, args.chart, demo=args.demo))
+        else:
+            print(json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False))
     except (TypeError, KeyError, ValueError, OSError, OverflowError) as ex:
         parser.exit(2, f"Input error: {ex}\n")
 
