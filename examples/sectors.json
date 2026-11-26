@@ -1,0 +1,9 @@
+{
+  "cutoff": "2026-11-27T07:45:00+09:00",
+  "scopes": {"server_dram": "synthetic-same-spec"},
+  "observations": [
+    {"profile":"server_dram","metric":"orders","period":"2026-Q3","comparison":"qoq","unit":"%","grade":"observed","value":4.0,"scope":"synthetic-same-spec","available_at":"2026-11-06T18:00:00+09:00","source":"Synthetic demonstration only","note":"가상 예제: 동일 규격 주문 물량"},
+    {"profile":"server_dram","metric":"contract_price","period":"2026-Q3","comparison":"qoq","unit":"%","grade":"observed","value":6.0,"scope":"synthetic-same-spec","available_at":"2026-11-06T18:00:00+09:00","source":"Synthetic demonstration only","note":"가상 예제: 동일 규격 계약가"},
+    {"profile":"enterprise_ssd","metric":"context","period":"2026-Q4","grade":"outlook","scope":"synthetic-separate-product","available_at":"2026-11-06T18:00:00+09:00","source":"Synthetic demonstration only","note":"가상 전망은 실측 판정에 넣지 않음"}
+  ]
+}

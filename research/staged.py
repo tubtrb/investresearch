@@ -11,6 +11,7 @@ from statistics import fmean
 
 from .backtest import stamp
 from .global_macro import dashboard
+from .sectors import BY_KEY as SECTOR_PROFILES, SECTORS, screen_sectors
 
 SCHEMA = {
     "fx": ("usd_local_change_pct",),
@@ -82,12 +83,26 @@ class Screen:
         self.calendar = set(self.sessions)
         if not self.completed:
             raise ValueError("No completed regular session at cutoff")
+        self.sector_report = (screen_sectors(payload["industry_observations"], self.cutoff,
+                                             payload.get("industry_scopes"))
+                              if "industry_observations" in payload else None)
+        self.profile_results = ({p["key"]: p for row in self.sector_report["sectors"]
+                                 for p in row["profiles"]} if self.sector_report else {})
+        self.candidate_profiles = {}
         self.universe = {}
         for candidate in payload["universe"]:
             sym = label(candidate["symbol"], "symbol")
             if sym in self.universe:
                 raise ValueError(f"Duplicate candidate: {sym}")
             self.universe[sym] = label(candidate["sector"], "sector/product key")
+            profile = candidate.get("sector_profile")
+            if profile is not None:
+                if profile not in SECTOR_PROFILES:
+                    raise ValueError(f"Unknown sector_profile: {profile}")
+                if (self.universe[sym] in SECTORS
+                        and self.universe[sym] != SECTOR_PROFILES[profile].sector):
+                    raise ValueError(f"Sector and sector_profile disagree: {sym}")
+                self.candidate_profiles[sym] = profile
         if not self.universe:
             raise ValueError("Provide at least one equity")
         self.observations = {}
@@ -148,6 +163,20 @@ class Screen:
             return result("fail", ["orders_and_contract_prices_declining"], obs, **context)
         return result("hold", ["mixed_or_flat_sector"], obs, **context)
 
+    def sector_gate(self, symbol, sector):
+        profile = self.candidate_profiles.get(symbol)
+        if profile is None:
+            if sector in SECTORS or self.sector_report is not None:
+                return result("unknown", ["sector_profile_required"])
+            return self.sector(sector)  # Legacy input without the 10-sector report.
+        p = self.profile_results.get(profile)
+        if p is None:
+            return result("unknown", ["industry_observations_required"], profile=profile)
+        relative = self.evidence("breadth", sector)
+        return result(p["status"], [p["reason"]], profile=profile, scope=p["scope"],
+                      missing=p["missing"], gate_evidence=list(p["gate_evidence"].values()),
+                      relative_strength=relative.audit() if relative is not None else None)
+
     def chart(self, symbol):
         dates = self.completed[-21:]
         bars = [self.bars.get((symbol, session)) for session in dates]
@@ -192,7 +221,7 @@ class Screen:
         candidates = []
         for sym, sector in self.universe.items():
             gates = {"macro": self.macro()}
-            for name, test in (("sector", lambda: self.sector(sector)),
+            for name, test in (("sector", lambda: self.sector_gate(sym, sector)),
                                ("chart", lambda: self.chart(sym)),
                                ("company", lambda: self.company(sym, gates["chart"]["close"]))):
                 blocker = next((k for k, v in gates.items() if v["status"] != "pass"), None)
@@ -203,10 +232,11 @@ class Screen:
                                "first_blocker": first,
                                "illustrative_max_weight": .5 * gates["macro"]["exposure_factor"]
                                if first is None else None})
-        return {"schema_version": 2, "mode": "research_only", "market": self.market,
+        return {"schema_version": 3, "mode": "research_only", "market": self.market,
                 "cutoff": self.cutoff.isoformat(), "evaluated_close_at": self.completed[-1].isoformat(),
                 "macro_stress_limits": MACRO_LIMITS, "max_age_calendar_days": AGES,
-                "candidates": candidates, "global_macro": self.global_macro}
+                "candidates": candidates, "global_macro": self.global_macro,
+                "industry_report": self.sector_report}
 
 
 def result(status, reasons, evidence=(), **details):
