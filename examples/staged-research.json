@@ -1,0 +1,279 @@
+{
+  "market": "KRX",
+  "cutoff": "2026-01-30T15:30:00+09:00",
+  "regular_closes": [
+    "2026-01-02T15:30:00+09:00",
+    "2026-01-05T15:30:00+09:00",
+    "2026-01-06T15:30:00+09:00",
+    "2026-01-07T15:30:00+09:00",
+    "2026-01-08T15:30:00+09:00",
+    "2026-01-09T15:30:00+09:00",
+    "2026-01-12T15:30:00+09:00",
+    "2026-01-13T15:30:00+09:00",
+    "2026-01-14T15:30:00+09:00",
+    "2026-01-15T15:30:00+09:00",
+    "2026-01-16T15:30:00+09:00",
+    "2026-01-19T15:30:00+09:00",
+    "2026-01-20T15:30:00+09:00",
+    "2026-01-21T15:30:00+09:00",
+    "2026-01-22T15:30:00+09:00",
+    "2026-01-23T15:30:00+09:00",
+    "2026-01-26T15:30:00+09:00",
+    "2026-01-27T15:30:00+09:00",
+    "2026-01-28T15:30:00+09:00",
+    "2026-01-29T15:30:00+09:00",
+    "2026-01-30T15:30:00+09:00"
+  ],
+  "universe": [
+    {
+      "symbol": "DEMO",
+      "sector": "SERVER_DRAM"
+    }
+  ],
+  "bars": [
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-02T15:30:00+09:00",
+      "available_at": "2026-01-02T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-05T15:30:00+09:00",
+      "available_at": "2026-01-05T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-06T15:30:00+09:00",
+      "available_at": "2026-01-06T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-07T15:30:00+09:00",
+      "available_at": "2026-01-07T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-08T15:30:00+09:00",
+      "available_at": "2026-01-08T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-09T15:30:00+09:00",
+      "available_at": "2026-01-09T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-12T15:30:00+09:00",
+      "available_at": "2026-01-12T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-13T15:30:00+09:00",
+      "available_at": "2026-01-13T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-14T15:30:00+09:00",
+      "available_at": "2026-01-14T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-15T15:30:00+09:00",
+      "available_at": "2026-01-15T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-16T15:30:00+09:00",
+      "available_at": "2026-01-16T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-19T15:30:00+09:00",
+      "available_at": "2026-01-19T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-20T15:30:00+09:00",
+      "available_at": "2026-01-20T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-21T15:30:00+09:00",
+      "available_at": "2026-01-21T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-22T15:30:00+09:00",
+      "available_at": "2026-01-22T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-23T15:30:00+09:00",
+      "available_at": "2026-01-23T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-26T15:30:00+09:00",
+      "available_at": "2026-01-26T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-27T15:30:00+09:00",
+      "available_at": "2026-01-27T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-28T15:30:00+09:00",
+      "available_at": "2026-01-28T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-29T15:30:00+09:00",
+      "available_at": "2026-01-29T15:30:00+09:00",
+      "session": "regular",
+      "close": 100,
+      "source": "Synthetic demonstration only"
+    },
+    {
+      "symbol": "DEMO",
+      "close_at": "2026-01-30T15:30:00+09:00",
+      "available_at": "2026-01-30T15:30:00+09:00",
+      "session": "regular",
+      "close": 106,
+      "source": "Synthetic demonstration only"
+    }
+  ],
+  "evidence": [
+    {
+      "kind": "fx",
+      "key": "KRX",
+      "period_end": "2026-01-30T15:30:00+09:00",
+      "available_at": "2026-01-30T15:30:00+09:00",
+      "source": "Synthetic demonstration only",
+      "values": {
+        "usd_local_change_pct": 0.1
+      }
+    },
+    {
+      "kind": "credit",
+      "key": "KRX",
+      "period_end": "2026-01-30T15:30:00+09:00",
+      "available_at": "2026-01-30T15:30:00+09:00",
+      "source": "Synthetic demonstration only",
+      "values": {
+        "hy_oas_change_bp": 3
+      }
+    },
+    {
+      "kind": "breadth",
+      "key": "SERVER_DRAM",
+      "period_end": "2026-01-30T15:30:00+09:00",
+      "available_at": "2026-01-30T15:30:00+09:00",
+      "source": "Synthetic demonstration only",
+      "values": {
+        "sector_vs_benchmark_pct": 0.8
+      }
+    },
+    {
+      "kind": "orders",
+      "key": "SERVER_DRAM",
+      "period_end": "2026-01-01T00:00:00+09:00",
+      "available_at": "2026-01-30T15:30:00+09:00",
+      "source": "Synthetic demonstration only",
+      "values": {
+        "orders_change_pct": 2.0
+      }
+    },
+    {
+      "kind": "contract_price",
+      "key": "SERVER_DRAM",
+      "period_end": "2026-01-01T00:00:00+09:00",
+      "available_at": "2026-01-30T15:30:00+09:00",
+      "source": "Synthetic demonstration only",
+      "values": {
+        "price_change_pct": 1.0
+      }
+    },
+    {
+      "kind": "financials",
+      "key": "DEMO",
+      "period_end": "2025-12-31T23:59:59+09:00",
+      "available_at": "2026-01-30T15:30:00+09:00",
+      "source": "Synthetic demonstration only",
+      "values": {
+        "op_income": 500,
+        "op_income_prior": 420,
+        "cfo": 600,
+        "capex": 220,
+        "eps": 10
+      }
+    },
+    {
+      "kind": "valuation",
+      "key": "DEMO",
+      "period_end": "2026-01-30T15:30:00+09:00",
+      "available_at": "2026-01-30T15:30:00+09:00",
+      "source": "Synthetic demonstration only",
+      "values": {
+        "max_trailing_pe": 14
+      }
+    }
+  ]
+}

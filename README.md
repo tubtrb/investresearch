@@ -15,6 +15,12 @@ python -m research.backtest --sqlite /path/to/study.sqlite
 
 The demo produces one confirmed case and reports next-session open reference, confirmation cost versus the candidate low, forward close return, and maximum adverse excursion separately. A reference open is **not** an executable fill or P&L claim; slippage, fees and executable liquidity are not simulated.
 
+## 별도 4단계 주식 리서치
+
+매크로 → 업황·섹터 → 정규장 차트 → 기업 분석 순서로 후보를 검토합니다.
+`python -m research.staged --input examples/staged-research.json`으로 가상 예제를 실행할 수 있습니다.
+[규칙·입력·제약](docs/staged-research.md)
+
 ## Rules, in order
 
 1. **Condition.** At the declared cutoff after a completed session, require all three markets (KOSPI, SK hynix and Samsung Electronics) to close at/below their respective previous-200-session moving average and at least 15% below their respective previous-60-session closing high. Require current VKOSPI at least 30 and a still-current, source-tagged conservative valuation assessment marked supportive by the data producer. Record the three daily lows as anchors. These defaults are transparent research settings, not calibrated thresholds. Use prior calendar sessions, never compress missing observations.
