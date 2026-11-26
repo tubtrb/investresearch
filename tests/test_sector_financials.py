@@ -100,6 +100,17 @@ class FinancialBasketTest(unittest.TestCase):
         for label in ("반도체", "조선", "게임", "엔터", "+53.9%", "+263.9%", "2/4사", "혼조"):
             self.assertIn(label, svg)
 
+    def test_ten_sector_snapshot_is_comparable_at_latest_quarter(self):
+        payload = json.loads((ROOT / "examples/sector-financials-2026q3.json").read_text())
+        report = sector_financials(payload["sector_financials"], stamp(payload["cutoff"]))
+        self.assertEqual(len(report["sectors"]), 10)
+        for sector in report["sectors"].values():
+            latest = sector["latest"]
+            self.assertEqual(latest["coverage"], sector["expected_members"])
+            self.assertIsNotNone(latest["both_improved"])
+        self.assertIn("실적 그래프 10/10", overview_svg(report))
+        self.assertEqual(report["sectors"]["games"]["history"][0]["revenue"], None)
+
     def test_five_member_sector(self):
         games = deepcopy(self.basket)
         games["members"].append({"symbol": "EXAMPLE-5", "scope": "segment:games"})

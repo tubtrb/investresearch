@@ -328,7 +328,10 @@ def overview_svg(report, *, demo=False):
         if not got:
             txt(x+17, y+67, f"대표 {row['expected_members']}사 기준", 17, "#566b84")
             rect(x+17, y+95, 389, 142, "#f1f4f8", 10)
-            txt(x+211, y+172, "실적 미집계", 20, "#566b84", anchor="middle")
+            last = row.get("latest")
+            msg = (f"완전 집계 없음 · 최신 {last['coverage']}/{row['expected_members']}사"
+                   if last else "실적 미집계")
+            txt(x+211, y+172, msg, 20, "#566b84", anchor="middle")
             continue
 
         size = row["units_per_display"]
