@@ -11,6 +11,7 @@ from statistics import fmean
 
 from .backtest import stamp
 from .global_macro import dashboard
+from .sector_financials import sector_financials
 from .sectors import BY_KEY as SECTOR_PROFILES, SECTORS, screen_sectors
 
 SCHEMA = {
@@ -86,6 +87,8 @@ class Screen:
         self.sector_report = (screen_sectors(payload["industry_observations"], self.cutoff,
                                              payload.get("industry_scopes"))
                               if "industry_observations" in payload else None)
+        self.sector_financial_report = (sector_financials(payload["sector_financials"], self.cutoff)
+                                        if "sector_financials" in payload else None)
         self.profile_results = ({p["key"]: p for row in self.sector_report["sectors"]
                                  for p in row["profiles"]} if self.sector_report else {})
         self.candidate_profiles = {}
@@ -165,6 +168,16 @@ class Screen:
 
     def sector_gate(self, symbol, sector):
         profile = self.candidate_profiles.get(symbol)
+        if self.sector_financial_report is not None:
+            entry = self.sector_financial_report["sectors"].get(sector)
+            if entry is None:
+                return result("unknown", ["sector_basket_not_supported"])
+            p = self.profile_results.get(profile)
+            relative = self.evidence("breadth", sector)
+            return result(entry["status"], [entry["reason"]], basis="fixed_financial_basket",
+                          financials=entry.get("latest"),
+                          profile=profile, product_context=p,
+                          relative_strength=relative.audit() if relative is not None else None)
         if profile is None:
             if sector in SECTORS or self.sector_report is not None:
                 return result("unknown", ["sector_profile_required"])
@@ -236,7 +249,8 @@ class Screen:
                 "cutoff": self.cutoff.isoformat(), "evaluated_close_at": self.completed[-1].isoformat(),
                 "macro_stress_limits": MACRO_LIMITS, "max_age_calendar_days": AGES,
                 "candidates": candidates, "global_macro": self.global_macro,
-                "industry_report": self.sector_report}
+                "industry_report": self.sector_report,
+                "sector_financial_report": self.sector_financial_report}
 
 
 def result(status, reasons, evidence=(), **details):

@@ -1,0 +1,417 @@
+{
+  "cutoff": "2026-11-27T08:00:00+09:00",
+  "sector_financials": {
+    "report_quarter": "2026-Q3",
+    "baskets": {
+      "entertainment": {
+        "selected_at": "2026-11-27T07:51:00+09:00",
+        "currency": "KRW",
+        "units_per_display": 1000000000000,
+        "members": [
+          {
+            "symbol": "352820",
+            "scope": "consolidated"
+          },
+          {
+            "symbol": "041510",
+            "scope": "consolidated"
+          },
+          {
+            "symbol": "035900",
+            "scope": "consolidated"
+          },
+          {
+            "symbol": "122870",
+            "scope": "consolidated"
+          }
+        ],
+        "observations": [
+          {
+            "symbol": "352820",
+            "quarter": "2026-Q1",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814004127",
+            "revenue": 698348369000,
+            "operating_profit": -196574553000
+          },
+          {
+            "symbol": "352820",
+            "quarter": "2026-Q2",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814004127",
+            "revenue": 1449997504000,
+            "operating_profit": 170924507000
+          },
+          {
+            "symbol": "352820",
+            "quarter": "2025-Q1",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814004127",
+            "revenue": 500613448000,
+            "operating_profit": 21622539000
+          },
+          {
+            "symbol": "352820",
+            "quarter": "2025-Q2",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814004127",
+            "revenue": 705649177000,
+            "operating_profit": 65918974000
+          },
+          {
+            "symbol": "041510",
+            "quarter": "2026-Q1",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814002930",
+            "revenue": 279100907391,
+            "operating_profit": 38575298868
+          },
+          {
+            "symbol": "041510",
+            "quarter": "2026-Q2",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814002930",
+            "revenue": 349640523616,
+            "operating_profit": 52879998982
+          },
+          {
+            "symbol": "041510",
+            "quarter": "2025-Q1",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814002930",
+            "revenue": 231426868159,
+            "operating_profit": 32585652915
+          },
+          {
+            "symbol": "041510",
+            "quarter": "2025-Q2",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814002930",
+            "revenue": 302914439760,
+            "operating_profit": 47610585554
+          },
+          {
+            "symbol": "035900",
+            "quarter": "2026-Q1",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003204",
+            "revenue": 185959611998,
+            "operating_profit": 33374435834
+          },
+          {
+            "symbol": "035900",
+            "quarter": "2026-Q2",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003204",
+            "revenue": 183142887242,
+            "operating_profit": 30997855609
+          },
+          {
+            "symbol": "035900",
+            "quarter": "2025-Q1",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003204",
+            "revenue": 140759310563,
+            "operating_profit": 19627728835
+          },
+          {
+            "symbol": "035900",
+            "quarter": "2025-Q2",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003204",
+            "revenue": 215832158598,
+            "operating_profit": 52908292627
+          },
+          {
+            "symbol": "122870",
+            "quarter": "2026-Q1",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814004237",
+            "revenue": 147118996847,
+            "operating_profit": 19417938822
+          },
+          {
+            "symbol": "122870",
+            "quarter": "2026-Q2",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814004237",
+            "revenue": 127759713220,
+            "operating_profit": 10968333710
+          },
+          {
+            "symbol": "122870",
+            "quarter": "2025-Q1",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814004237",
+            "revenue": 100156018280,
+            "operating_profit": 9524641977
+          },
+          {
+            "symbol": "122870",
+            "quarter": "2025-Q2",
+            "available_at": "2026-08-14T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814004237",
+            "revenue": 100410739470,
+            "operating_profit": 8359636043
+          },
+          {
+            "symbol": "352820",
+            "quarter": "2026-Q3",
+            "available_at": "2026-11-16T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261116001746",
+            "revenue": 1525675043000,
+            "operating_profit": 188501715000
+          },
+          {
+            "symbol": "352820",
+            "quarter": "2025-Q3",
+            "available_at": "2026-11-16T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261116001746",
+            "revenue": 727180687000,
+            "operating_profit": -42197879000
+          },
+          {
+            "symbol": "041510",
+            "quarter": "2026-Q3",
+            "available_at": "2026-11-13T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001370",
+            "revenue": 287971351983,
+            "operating_profit": 33619930083
+          },
+          {
+            "symbol": "041510",
+            "quarter": "2025-Q3",
+            "available_at": "2026-11-13T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001370",
+            "revenue": 321591609871,
+            "operating_profit": 48213754151
+          },
+          {
+            "symbol": "035900",
+            "quarter": "2026-Q3",
+            "available_at": "2026-11-13T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001566",
+            "revenue": 267453456615,
+            "operating_profit": 47981301598
+          },
+          {
+            "symbol": "035900",
+            "quarter": "2025-Q3",
+            "available_at": "2026-11-13T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001566",
+            "revenue": 232626102344,
+            "operating_profit": 40791993344
+          },
+          {
+            "symbol": "122870",
+            "quarter": "2026-Q3",
+            "available_at": "2026-11-16T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261116000477",
+            "revenue": 156730947038,
+            "operating_profit": 13453559448
+          },
+          {
+            "symbol": "122870",
+            "quarter": "2025-Q3",
+            "available_at": "2026-11-16T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261116000477",
+            "revenue": 173070883008,
+            "operating_profit": 31120582900
+          },
+          {
+            "symbol": "352820",
+            "quarter": "2024-Q4",
+            "available_at": "2026-03-20T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260320000802 ; https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114001984",
+            "revenue": 726418735000,
+            "operating_profit": 64571604000
+          },
+          {
+            "symbol": "352820",
+            "quarter": "2025-Q4",
+            "available_at": "2026-03-20T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260320000802 ; https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20251114001984",
+            "revenue": 716426933000,
+            "operating_profit": 3974641000
+          },
+          {
+            "symbol": "041510",
+            "quarter": "2024-Q4",
+            "available_at": "2026-02-11T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://cdn2.smentertainment.com/wp-content/uploads/2026/02/11123116/4Q25_Earnings_Eng_vF.pdf",
+            "revenue": 273600000000,
+            "operating_profit": 33700000000
+          },
+          {
+            "symbol": "041510",
+            "quarter": "2025-Q4",
+            "available_at": "2026-02-11T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://cdn2.smentertainment.com/wp-content/uploads/2026/02/11123116/4Q25_Earnings_Eng_vF.pdf",
+            "revenue": 319000000000,
+            "operating_profit": 54600000000
+          },
+          {
+            "symbol": "035900",
+            "quarter": "2024-Q4",
+            "available_at": "2026-03-10T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://www.jype.com/es/board/ir-data/sx0uu6w6",
+            "revenue": 199100000000,
+            "operating_profit": 36900000000
+          },
+          {
+            "symbol": "035900",
+            "quarter": "2025-Q4",
+            "available_at": "2026-03-10T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://www.jype.com/es/board/ir-data/sx0uu6w6",
+            "revenue": 232600000000,
+            "operating_profit": 41900000000
+          },
+          {
+            "symbol": "122870",
+            "quarter": "2024-Q4",
+            "available_at": "2026-03-23T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://kind.krx.co.kr/external/2026/03/23/002342/20260323009891/11011.htm ; https://kind.krx.co.kr/external/2025/11/14/001886/20251114004258/11013.htm",
+            "revenue": 104066725689,
+            "operating_profit": 994514192
+          },
+          {
+            "symbol": "122870",
+            "quarter": "2025-Q4",
+            "available_at": "2026-03-23T23:59:59+09:00",
+            "scope": "consolidated",
+            "currency": "KRW",
+            "basis": "standalone_quarter",
+            "grade": "actual",
+            "source": "https://kind.krx.co.kr/external/2026/03/23/002342/20260323009891/11011.htm ; https://kind.krx.co.kr/external/2025/11/14/001886/20251114004258/11013.htm",
+            "revenue": 171766621230,
+            "operating_profit": 22336654521
+          }
+        ]
+      }
+    }
+  }
+}

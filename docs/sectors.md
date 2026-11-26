@@ -34,3 +34,30 @@ python -m unittest discover -s tests -v
 ## 4단계 스크린에 연결하기
 
 기존 입력에 `industry_observations`(위 행 형식)와 선택적 `industry_scopes`를 추가하고 각 `universe` 후보에 `sector_profile`을 명시합니다. 예: `{"symbol":"000660","sector":"semiconductor","sector_profile":"hbm"}`. HBM 판정 때문에 낸드가 통과하는 일은 없습니다. 프로필 모드에서 매크로가 먼저 막히면 종목 게이트는 건너뛰되, **시장 파악용** 업황표 전체는 `industry_report`에 남깁니다. 업황이 통과하지 않으면 차트·기업 평가도 넘기지 않습니다. 출력 스키마 3이며 기존 비프로필 가상 예제와 1차 글로벌 매크로 출력은 유지합니다.
+
+## 기본 화면: 고정 대표사 합산 재무
+
+`sector_financials`가 있는 입력에서는 **합산 실적이 2차 판정 기준**입니다. 기존 제품별 주문·가격·수주 등은 `industry_report`와 후보의 `product_context`에 별도로 표시합니다. 이 보조 자료로 재무 누락을 메우거나 합산 결과를 뒤집지 않습니다. `sector_financials`가 없는 기존 입력은 이전 판정으로 실행됩니다. 3차 차트와 4차 개별 기업 재무 로직은 바뀌지 않습니다.
+
+```sh
+python -m research.sector_financials --input examples/sector-financials-demo.json
+python -m research.sector_financials --input examples/sector-financials-demo.json --chart entertainment --demo > entertainment.svg
+```
+
+- **표본:** 섹터마다 대표 5개 기업, 엔터는 하이브·SM·JYP·YG 4개 기업 고정. 바스켓은 주가 성과가 아니라 해당 사업 매출 규모와 공시 비교 가능성으로 미리 선정합니다. 구성 변경 시 별도 버전으로 관리합니다. 동일 기업에 해당하는 증권이나 동일 연결 범위의 모·자회사를 중복 포함하지 않습니다. 분기 비교 중 표본을 임의로 변경하지 않습니다.
+- **입력:** 명시적인 `report_quarter`와 `baskets`를 사용합니다. 바스켓당 `selected_at`, 공통 `currency`, `units_per_display`, `members`(종목 코드와 `scope`), `observations`가 필요합니다. 확정 공시된 3개월 단독 실적 `basis: "standalone_quarter"`과 `grade: "actual"`을 넣습니다. 매출과 영업이익은 표기 단위로 나누기 전의 동일 통화 원 단위입니다. 다사업 기업은 비교 가능한 해당 사업부 실적만 쓰고, 비교 불가·공시 누락 시 전체 연결 수치로 대체하지 않습니다. 다른 통화를 쓰는 기업은 출처와 동일한 환산 방법을 확인해 업로드 전에 공통 통화로 맞춥니다.
+- **검증:** 기준 시각 이전 공시된 최신 실제값만 사용합니다. 당기 관측 전부 확보 시에만 합산하고, 전년 동기까지 완전해야 변화와 개선 기업 수를 계산합니다. 현재 분기가 미완이면 이전 분기로 조용히 대체하지 않습니다. 표시 8분기의 전년 대비 전부를 계산하려면 입력 12분기가 필요합니다. 최신 기준 분기 말에서 145일 초과 시 판정 보류입니다. 현재 고정 구성의 과거 차트는 소급 집계이며 당시 구성으로 수행한 백테스트가 아닙니다.
+- **초기 판정 규칙:** 합산 매출·영업이익이 모두 전년 동기 대비 증가하고 과반 기업이 두 지표에서 동반 개선하면 `pass`, 반대는 `fail`, 혼조·편중은 `hold`, 미공시는 `unknown`. 과반 기준은 연구용 초깃값이며 백테스트로 검증된 매매 규칙은 아닙니다. 전년 이익이 0 이하이거나 흑자에서 적자로 바뀌면 이익 증가율 대신 절대 증감과 전환 상태를 읽습니다.
+- **차트:** 공통 분기축을 사용한 합산 매출 꺾은선과 0선이 있는 합산 영업이익 막대. 상단에 최신 분기 동반 개선 기업 수를 표시하고, 미집계 분기는 빈칸으로 둡니다.
+
+가상 예제는 엔터 4사 형식·계산 확인용입니다. 실제 공시 자동 수집과 나머지 9개 섹터의 대표사 선정은 별개이며, 미설정 섹터도 보고서에 `unknown`으로 남습니다.
+
+### 엔터 실제 검증 결과 (2026년 3분기)
+
+`examples/sector-financials-entertainment-2026q3.json`에 엔터 4사 연결 8분기 표본을 넣었습니다. 각 입력의 원본 출처를 함께 남겼습니다. 2025~2026년 1분기는 반기보고서의 6개월 누적에서 동일 보고서의 2분기 값을 차감했습니다. 2·3분기는 반기·분기보고서의 3개월 열, 4분기는 사업보고서와 9개월 누적 차이 또는 회사 IR의 연결 분기 수치를 썼습니다. IR은 원문 표기 단위로 반올림되어 있습니다. 회계상 연결 범위 변경은 별도 조정하지 않은 공시 기준이며, 각 수치의 `available_at`은 사용 문서 공개일의 종료 시각(23:59:59 KST)을 보수적으로 사용합니다. 현재 시점의 고정 구성으로 작성한 회고 자료입니다.
+
+```sh
+python -m research.sector_financials --input examples/sector-financials-entertainment-2026q3.json --chart entertainment > entertainment.svg
+```
+
+2026년 3분기 합산 매출 2.238조 원(+53.9%), 영업이익 2,836억 원(+263.9%)이지만 양쪽 동반 개선은 하이브·JYP 2/4사뿐이어서 판정은 `hold`입니다. 하이브 제외 시 나머지 3사 합산 매출과 영업이익은 모두 감소했습니다. 최신 분기 집계는 잠정 IR 대신 [하이브](https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261116001746), [SM](https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001370), [JYP](https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261113001566), [YG](https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20261116000477)의 분기보고서 연결 손익계산서를 사용했습니다.
